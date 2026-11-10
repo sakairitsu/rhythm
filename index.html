@@ -39,6 +39,8 @@ if (/[?&]theme=pink\b/.test(location.search)) document.documentElement.dataset.t
   --c-accent:  var(--c-ink);     /* 포인트 (타이틀 점 · ！ · 볼륨 바) */
   --c-dot:     var(--c-ink);     /* 배경 하프톤 점 색 */
   --c-on-dark: var(--c-paper);   /* 가사 모니터 REC 점 · 진행 바 */
+  --c-dot-3d:  #222222;          /* 3D 하프톤 점 색 (hex) */
+  --dot-3d-k:  .82;              /* 3D 하프톤 점 진하기 */
 
   --f-disp: 'Unbounded', 'Galmuri11', 'Arial Black', sans-serif;
   --f-mono: 'JetBrains Mono', 'Galmuri11', ui-monospace, Menlo, monospace;
@@ -68,10 +70,18 @@ if (/[?&]theme=pink\b/.test(location.search)) document.documentElement.dataset.t
   --c-pocket:  #e2dee0;
   --c-lyric-tr:#ff8db2;
   --c-accent:  #f0437c;   /* 선명한 핑크 */
-  --c-dot:     var(--c-ink);
+  --c-dot:     #f0437c;   /* 배경 하프톤 점도 핑크 */
   --c-on-dark: #ff5a91;
-  --dot-alpha: .06;
+  --c-dot-3d:  #f0437c;   /* 3D 플레이어 · 테이프 명암 점을 핑크로 (리소 인쇄 느낌) */
+  --dot-3d-k:  1;
+  --dot-alpha: .12;
+  --c-grid:    color-mix(in srgb, #f0437c 12%, transparent);
 }
+:root[data-theme="pink"] .wordmark .w-q{-webkit-text-stroke-color:var(--c-accent)}
+:root[data-theme="pink"] .zone-label em{color:var(--c-accent)}
+:root[data-theme="pink"] .mon-cur{color:#ffd3e1}
+:root[data-theme="pink"] .tag.hot .tag-node,:root[data-theme="pink"] .tag.loaded .tag-node{background:var(--c-accent);border-color:var(--c-accent)}
+:root[data-theme="pink"] .top,:root[data-theme="pink"] .bottom{border-color:var(--c-accent)}
 :root[data-theme="pink"] .wordmark .l2 .w-en{background:var(--c-accent);border-color:var(--c-accent)}
 :root[data-theme="pink"] .np-list li.on{background:var(--c-accent);color:#fff}
 :root[data-theme="pink"] .np-ctrl button.main{background:var(--c-accent);border-color:var(--c-ink)}
@@ -959,6 +969,8 @@ const U = {
   uPaper: { value: hexToVec(PAPER) },
   uDpr:   { value: DPR },
   uCell:  { value: 4.2 },
+  uDot:   { value: hexToVec(cssVar('--c-dot-3d') || INK) },
+  uDotK:  { value: parseFloat(cssVar('--dot-3d-k')) || .82 },
 };
 const VS = `
 varying vec3 vN; varying vec2 vUv;
@@ -968,7 +980,7 @@ void main(){
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }`;
 const FS = `
-uniform vec3 uInk; uniform vec3 uPaper;
+uniform vec3 uInk; uniform vec3 uPaper; uniform vec3 uDot; uniform float uDotK;
 uniform sampler2D uMap; uniform float uUseMap; uniform float uBase; uniform float uFlat;
 uniform float uTone; uniform float uLit; uniform float uCell; uniform float uDpr;
 varying vec3 vN; varying vec2 vUv;
@@ -990,7 +1002,7 @@ void main(){
   float aa = .9 / px;
   float m = 1.0 - smoothstep(r - aa, r + aa, length(g));
   m *= step(.015, shade);
-  gl_FragColor = vec4(mix(uPaper, uInk, m * .82), 1.0);             // 점은 살짝 옅게 (눈부심 완화)
+  gl_FragColor = vec4(mix(uPaper, uDot, m * uDotK), 1.0);           // 명암 점 (색 · 진하기는 --c-dot-3d / --dot-3d-k)
 }`;
 function htMat({ map = null, base = .98, tone = 0, lit = 1, flat = 0 } = {}){
   return new THREE.ShaderMaterial({
