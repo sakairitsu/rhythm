@@ -9,6 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&text=%E3%83%AA%E3%82%BA%E3%83%A0%EF%BC%9F%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%83%83%E3%82%AF%EF%BC%81&display=swap" rel="stylesheet">
 <link rel="preload" href="fonts/Galmuri11.woff2" as="font" type="font/woff2" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<script>/* 색 시안 : ?theme=pink → 핑크 그레이 톤 */
+if (/[?&]theme=pink\b/.test(location.search)) document.documentElement.dataset.theme = 'pink';</script>
 <style>
 /* 픽셀 폰트 Galmuri11 (한국어 · 일본어 · 한자) — SIL OFL, fonts/Galmuri-OFL.md
    굵기 범위를 지정해 굵은 글씨에서도 가짜 볼드 없이 픽셀 그대로 표시 */
@@ -34,6 +36,9 @@
   --c-band-d:  #b4b4b4;   /* 테이프 D 라벨 밴드 */
   --c-pocket:  #dcdcdc;   /* 플레이어 카세트 포켓 바닥 */
   --c-lyric-tr: #b8b8b8;  /* 가사 모니터 번역 줄 ([-]) */
+  --c-accent:  var(--c-ink);     /* 포인트 (타이틀 점 · ！ · 볼륨 바) */
+  --c-dot:     var(--c-ink);     /* 배경 하프톤 점 색 */
+  --c-on-dark: var(--c-paper);   /* 가사 모니터 REC 점 · 진행 바 */
 
   --f-disp: 'Unbounded', 'Galmuri11', 'Arial Black', sans-serif;
   --f-mono: 'JetBrains Mono', 'Galmuri11', ui-monospace, Menlo, monospace;
@@ -47,6 +52,25 @@
   --dot-cell:  11;        /* 하프톤 점 간격 (px) */
   --speed:     1;         /* 배경 움직임 속도 배율 (0 = 정지) */
   --edge: 8px;
+}
+/* ---------- 시안 : 핑크 그레이 톤 (?theme=pink) ---------- */
+:root[data-theme="pink"]{
+  --c-paper:   #f7f2f3;
+  --c-paper-2: #eee5e8;
+  --c-paper-3: #e3d7db;
+  --c-ink:     #463d41;   /* 핑크 기가 도는 차콜 그레이 */
+  --c-ink-2:   #76696e;
+  --c-ink-3:   #a99ca1;
+  --c-band-a:  #f3c6d1;
+  --c-band-b:  #c7a8b1;
+  --c-band-c:  #eab7c4;
+  --c-band-d:  #bbaeb3;
+  --c-pocket:  #ecdfe3;
+  --c-lyric-tr:#f4abbe;
+  --c-accent:  #e3849f;
+  --c-dot:     #e3849f;
+  --c-on-dark: #f4abbe;
+  --dot-alpha: .11;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -80,8 +104,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .wordmark .w-q{display:inline-block;color:transparent;-webkit-text-stroke:2px var(--c-ink);font-size:1.3em;line-height:.8;
   transform:rotate(12deg) translate(.02em,-.06em);margin-left:-.06em}
 .wordmark .w-b{letter-spacing:-.06em;color:transparent;-webkit-text-stroke:1.5px var(--c-ink);
-  background:radial-gradient(circle,var(--c-ink) 38%,transparent 44%) 0 0/4px 4px;-webkit-background-clip:text;background-clip:text}
-.wordmark .w-x{display:inline-block;font-size:1.18em;line-height:.85;transform:rotate(-9deg) translateY(-.02em);margin-left:.02em}
+  background:radial-gradient(circle,var(--c-accent) 38%,transparent 44%) 0 0/4px 4px;-webkit-background-clip:text;background-clip:text}
+.wordmark .w-x{display:inline-block;color:var(--c-accent);font-size:1.18em;line-height:.85;transform:rotate(-9deg) translateY(-.02em);margin-left:.02em}
 .wordmark .w-en{font-family:var(--f-mono);font-size:max(9px,.17em);font-weight:800;letter-spacing:.3em;
   align-self:flex-start;margin:.35em 0 0 .7em;padding:.2em .45em;border:1.5px solid var(--c-ink)}
 .wordmark .l2 .w-en{align-self:flex-end;margin:0 0 .25em .6em;background:var(--c-ink);color:var(--c-paper)}
@@ -146,8 +170,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .vol.mute b{color:var(--c-ink-3)}
 .vol input{-webkit-appearance:none;appearance:none;width:110px;height:18px;background:transparent;cursor:pointer;touch-action:none;
   --p:100%}
-.vol input::-webkit-slider-runnable-track{height:4px;background:linear-gradient(90deg,var(--c-ink) var(--p),var(--c-paper-3) var(--p))}
-.vol input::-moz-range-track{height:4px;background:linear-gradient(90deg,var(--c-ink) var(--p),var(--c-paper-3) var(--p))}
+.vol input::-webkit-slider-runnable-track{height:4px;background:linear-gradient(90deg,var(--c-accent) var(--p),var(--c-paper-3) var(--p))}
+.vol input::-moz-range-track{height:4px;background:linear-gradient(90deg,var(--c-accent) var(--p),var(--c-paper-3) var(--p))}
 .vol input::-webkit-slider-thumb{-webkit-appearance:none;width:10px;height:16px;margin-top:-6px;background:var(--c-paper);border:2px solid var(--c-ink);border-radius:2px}
 .vol input::-moz-range-thumb{width:6px;height:12px;background:var(--c-paper);border:2px solid var(--c-ink);border-radius:2px}
 .vol input:focus-visible{outline:2px solid var(--c-ink);outline-offset:3px}
@@ -271,7 +295,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   -webkit-mask:radial-gradient(120% 140% at 50% 50%,transparent 55%,#000 100%);mask:radial-gradient(120% 140% at 50% 50%,transparent 55%,#000 100%)}
 .mon-top{display:flex;justify-content:space-between;gap:10px;font-size:9px;letter-spacing:.24em;font-weight:800;opacity:.75}
 .mon-top .rec{display:flex;align-items:center;gap:6px}
-.mon-top .rec i{width:6px;height:6px;border-radius:50%;background:var(--c-paper);opacity:.35}
+.mon-top .rec i{width:6px;height:6px;border-radius:50%;background:var(--c-on-dark);opacity:.35}
 .mon.live .mon-top .rec i{opacity:1;animation:blink 1.1s steps(2,start) infinite}
 @keyframes blink{to{visibility:hidden}}
 .mon-lines{margin-top:6px;font-family:var(--f-kr);font-weight:400}
@@ -289,7 +313,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   background:var(--c-paper);animation:blink .5s steps(2,start) infinite}
 @media (prefers-reduced-motion: reduce){ .mon-lines .ch{animation:none} .mon-cur.typing::after{display:none} }
 .mon-bar{position:absolute;left:14px;right:14px;bottom:7px;height:2px;background:color-mix(in srgb,var(--c-paper) 18%,transparent)}
-.mon-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--c-paper)}
+.mon-bar i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--c-on-dark)}
 .mon-stand{width:58px;height:7px;border:2px solid var(--c-ink);border-top:0;border-radius:0 0 6px 6px;background:var(--c-paper)}
 
 /* ---------- RESPONSIVE ---------- */
@@ -431,7 +455,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   const cv = document.getElementById('ht'), g = cv.getContext('2d');
   const css = getComputedStyle(document.documentElement);
   const v = (n, d) => (css.getPropertyValue(n).trim() || d);
-  const INK = v('--c-ink', '#222222');
+  const INK = v('--c-dot', v('--c-ink', '#222222'));
   let ALPHA = parseFloat(v('--dot-alpha', .16));
   let SPEED = parseFloat(v('--speed', 1));
 
