@@ -55,23 +55,26 @@ if (/[?&]theme=pink\b/.test(location.search)) document.documentElement.dataset.t
 }
 /* ---------- 시안 : 핑크 그레이 톤 (?theme=pink) ---------- */
 :root[data-theme="pink"]{
-  --c-paper:   #f7f2f3;
-  --c-paper-2: #eee5e8;
-  --c-paper-3: #e3d7db;
-  --c-ink:     #463d41;   /* 핑크 기가 도는 차콜 그레이 */
-  --c-ink-2:   #76696e;
-  --c-ink-3:   #a99ca1;
-  --c-band-a:  #f3c6d1;
-  --c-band-b:  #c7a8b1;
-  --c-band-c:  #eab7c4;
-  --c-band-d:  #bbaeb3;
-  --c-pocket:  #ecdfe3;
-  --c-lyric-tr:#f4abbe;
-  --c-accent:  #e3849f;
-  --c-dot:     #e3849f;
-  --c-on-dark: #f4abbe;
-  --dot-alpha: .11;
+  --c-paper:   #f4f2f3;   /* 맑은 라이트 그레이 */
+  --c-paper-2: #e9e6e7;
+  --c-paper-3: #dbd7d9;
+  --c-ink:     #1d191b;   /* 거의 블랙 (대비 유지) */
+  --c-ink-2:   #4a4447;
+  --c-ink-3:   #8d8689;
+  --c-band-a:  #ff9cbe;   /* 테이프 라벨 : 핑크 / 그레이 교차 */
+  --c-band-b:  #b3aeb0;
+  --c-band-c:  #f7769f;
+  --c-band-d:  #c7c2c4;
+  --c-pocket:  #e2dee0;
+  --c-lyric-tr:#ff8db2;
+  --c-accent:  #f0437c;   /* 선명한 핑크 */
+  --c-dot:     var(--c-ink);
+  --c-on-dark: #ff5a91;
+  --dot-alpha: .06;
 }
+:root[data-theme="pink"] .wordmark .l2 .w-en{background:var(--c-accent);border-color:var(--c-accent)}
+:root[data-theme="pink"] .np-list li.on{background:var(--c-accent);color:#fff}
+:root[data-theme="pink"] .np-ctrl button.main{background:var(--c-accent);border-color:var(--c-ink)}
 
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--c-paper);overflow:hidden;overscroll-behavior:none}
